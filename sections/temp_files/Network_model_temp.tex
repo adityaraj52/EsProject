@@ -1,0 +1,76 @@
+\chapter{Network Model}\label{ch:model}
+
+
+In our application scenario, the \chs disseminate processing ability/interests into the network using short beacons. Intended senders try to access channel using the mac-protocol. On grant of access to the channel, they send the data. This data is compressed and encrypted using low end compression and encryption algorithm respectively. Further, using a suitable routing protocol the data is routed to \chs. They finally report the data to BS. Therefore, this research also includes realizing different aspects of a \acf{WSN} like Data Collection, Target tracking, Routing, Data Aggregation, Data Dissemination and Synchronization. 
+
+It can be inferred from the above description that:
+\begin{itemize}
+	
+	\item All sensors are not homogeneous. They have different processing power and communication capabilities.
+	
+	\item Sensor nodes sense the environment and send data to nearby(1 or 2 hop neighbours) Cluster Heads, which are the special \acp{SN} with high processing and energy capabilities, periodically.
+	
+\end{itemize}
+
+Because of huge similarity between our model and the cluster-based model, we decide to represent our scenario in cluster-based fashion instead of Flat, Tree-Based or Chain-Based. So in our model, Higher processing power nodes act as Cluster Heads inside \acf{WSN} and they act as data collectors and processing centers.
+
+In this context, we will also address following issues in clustering:
+
+\begin{itemize}
+\item Clustering Formation: Partitioning a network in clusters.
+
+\item Cluster head election: This can be done in three different ways:
+
+\begin{itemize}
+\item Similar to LEACH protocol: if Probability>threshold make leader, rest become followers
+
+\item By Election: All broadcast their infos and thus from the KB, leader is chosen
+
+\item By Base Station: need lot of communications with Base Station, so seldom used
+
+\end{itemize}
+\item set up phase and data transmission phase
+\item Inter-cluster and Intra-cluster collision resolution.
+
+\end{itemize}
+
+\noindent Following assumptions are made in modeling the network:
+
+\begin{itemize}
+	\item Radio Channel is symmetric in terms of Energy transmission between A and B.
+	
+	\item Sensors have limited sensing and sending range.
+	
+	\item Nodes are not mobile.
+	
+	\item Sensors are uniformly dispersed within a square field A
+	
+	\item Sensors and Base-Station are stationary after deployment
+	
+	\item The communication is based on the single-hop
+	
+	\item Communication is symmetric and a sensor can compute the approximate distance based on the received signal strength if the transmission power is given
+	
+	\item AIl sensors are location-unaware
+\end{itemize}
+
+\noindent The tasks involved for creating such a model can be summarized in following key points:
+
+\begin{itemize}
+	\item Time Synchronisation for SN using Beacons by ClusterHeads to SensorNodes and Other ClusterHeads. Assuming that this exists??
+	
+	\item At Physical layer: Implementing B-MAC to arbitrate channel access to SN.
+	
+	\item At Network layer: Using a suitable Routing protocol for ClusterBased Heterogeneous \acf{WSN} to forward sensed data to ClusterHeads.
+	
+	\item At application level: Implementation of low end Compression and encryption and aggregation of data collected at ClusterHeads.
+	
+	\item Testing the whole set up in a simulation environment
+	
+	\item Testing the model on actual Physical environment.
+	
+\end{itemize} 
+
+
+
+

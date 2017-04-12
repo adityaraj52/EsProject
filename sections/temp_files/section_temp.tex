@@ -1,0 +1,58 @@
+% !TEX root = ../TUCthesis.tex
+%*****************************************
+\chapter{Implementation}\label{ch:implementation}
+%*****************************************
+
+Communication via Packets (message\_t as Data Type) in a \ac{WSN} can be done by one or multiple of following four options:
+
+\begin{enumerate}
+	\item Active Messages: Single Hop, Unreliable Delivery
+	\item Collection: Multi-hop, Unreliable Delivery
+	\item Dissemination: Multi-hop, Reliable Delivery
+	\item Serial Communication: Serial Line, Unreliable Delivery
+\end{enumerate}
+
+\acp{SN} can take part in a \acf{WSN} as one or multiple options from following four possibilities:
+
+\begin{enumerate}
+	\item Sender: To send data destined to root. Uses Send Interface.
+	\item Snooper: Overhears transmission. Uses Receive Interface.
+	\item Receiver: Intended Recipient of data. Uses Receive Interface.
+	\item In-Network Processor. Uses Intercept Interface:
+	\item Root Node: Acts as a BaseStation. Uses RootControl Interface.
+\end{enumerate}
+
+\section{Proposed Packet Structure}
+\begin{table}[h]
+	\caption{Packet contents in the proposed heterogeneous model} % title name of the table
+	\myfloatalign
+	
+	\begin{adjustbox}{max width=\textwidth}
+		\begin{tabular}{*{9}{c}}
+			\toprule
+			Contents: &Sender ID  &Relayer ID &Destination ID &Request ID  &HopCount &FlagBit &Relay bit & ACK bit \\ \hline % row one 
+			\midrule
+			Size(in bits) & 4 & 4 & 4 & 3 & 2 & 1 & 1 & 1 \\ \hline
+			
+		\end{tabular}
+	\end{adjustbox}
+	\label{tab:packet_structure}
+\end{table}
+
+
+Table \ref{tab:packet_structure} shows the the packet contents of the Telosb devices communication phase:
+
+\begin{enumerate}
+	
+	\item Sender ID, Relayer Id, Destination ID: Since the communication is limited to 2 hop neighborhood, the easiest way to let the \acp{SN} know what role they play in data transmission, is to store their id's in the packet content. The size of this field is 4 bit to accommodate $2^4 = 16$ heterogeneous \acp{SN}.
+	
+	\item Request ID: Unique Request ID's represent what kind of processing center the original requester is interested in. In our test case, we keep this fixed as all the heterogeneous nodes are similar. For future purposes, we can have at max $2^3 = 8$ different types of heterogeneous nodes.
+	
+	\item HopCount: Every node increments hop count by one after forwarding the data. This also limits flooding limit to 2 hop.
+	
+	\item RelayBit: Set by relay nodes to let other receivers know that the received packet is relayed packet.
+	
+	\item ACKbit: Set by processing centers to let the receiver know that a response has been found.
+	
+\end{enumerate}
+

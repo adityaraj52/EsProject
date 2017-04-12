@@ -1,0 +1,35 @@
+% !TEX root = ../TUCthesis.tex
+%************************************************
+\chapter{Introduction}\label{ch:introduction}
+%************************************************
+
+\section{TinyOS}
+
+It is an Open Source project, contributed by many research groups by different Universities. This Operating System is specially suitable for low power wireless sensors, which are \acp{SN} usually 8 or 16bit µControllers with few kB's of RAM, e.g. 49000 kb RAM in Telosb Device. A great diversity of fields deploy these  \acp{SN} to gather and process collected information. The major deployment goal is to achieve long operating periods and low cost-setup of a \acf{WSN} composed of \acp{SN} . TinyOS provides a set of services and abstractions like sensing, radio communication, timers and storage. It provides following three things to easily write applications: 
+
+\begin{itemize}
+	\item Component Model: To write small, re-usable pieces of code which declare their dependencies themselves. For example: A user button Component sits on top of an Interrupt Handler and tells us when a button is pressed. Irrespective of the platform, it allows deployment of same piece of code to run on different platforms.
+	
+	\item Concurrent Execution Model: Input-output operations are non-bocking and return immediately in TinyOS. Only one stack is needed in TinyOS and also we can post tasks which are completed in later time and further on completion, the tasks signal appropriate events to notify their completion.
+	
+	\item \ac{API}: TinyOS provides common functionalities such as sending packets, reading sensors and responding to events. The whole framework is built up from chip to a hardware independent abstraction.
+\end{itemize}
+
+\section{Telosb Specification}
+
+\begin{itemize}
+	\item TI MSP430 16 bit MicroController
+	\item 10kB RAM
+	\item 48kB Flash Memory
+	\item Radio TI CC2420 Follows 802.15.4 Standard
+	\item Transmission rate: 250kbps
+	\item One pair of AA batteries
+\end{itemize}
+
+\section{Components and Interfaces}
+
+A component (module or configuration) groups related functionality in a single unit and therefore it is very much similar to classes in an Object-Oriented Programming. System services in TinyOS are represented as separate components(e.g. LedsC for Led control, ActiveMessageC for sending and receiving radio messages and so on).
+
+Components are defined by set of interfaces which they provide and use. Interfaces provide a set of functions for a service. This enables code re-usability as many components would want to control Leds or Send messages. Thus it completely depends on a user how to wire component to desired service( e.g. Interface Leds wired to LedsC component) 
+
+
