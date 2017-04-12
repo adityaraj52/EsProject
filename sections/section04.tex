@@ -443,6 +443,162 @@ Our model works on the systematic calling of timers when required. Some of these
 	
 	Each \ac{SN} maintains an updated list of \acp{PC} in two hop neighborhood and further sends a \ac{RTS} packet to request data processing by a \ac{PC}, based on the current state (occupied or free) of the \ac{SN}. We will explain this concept with the help of figure \ref{fig:PreambleTimer}. The model requires the sorted data from \textit{SortProcessingCentresBasedOnETX} timer. This timer periodically sorts the data in processing centre struct array based on lowest \ac{ETX} value and neighborhood distance. The PreambleSendingTimer then uses two arrays to decide whom to send \ac{RTS}: 1. sorted array of \acp{PC} and 2. busy \acp{PC} and relayers struct array (initially this list is empty, which means no \ac{PC} is busy initially). If a \ac{PC} is found by the method getProcessingCentreForTransmission using the above mentioned arrays, a \ac{RTS} packet is sent by setting transmitter address, receiver address, relayer address and duration of transfer desired as the packet contents. The recipient verifies if it is a relayer by extracting the relayer address from the packet contents (for a relayed transmission the packet content will have non-zero relayer address). In relayed transmission case, the packet is further forwarded to destination \ac{PC}. On reception of \ac{RTS} request by the \ac{PC}, it queues the request in CTSQueue and sends the \ac{CTS} response to the first \ac{RTS} sender. The sending response is broad-casted so that spectator \acp{SN} update their busy \acp{PC} and realyers struct array. This prevents other senders from not selecting an already occupied \ac{PC}. After getting the \ac{CTS} response, DataSendingTimer is fired which initiates the data transmission phase. The flowchart for DataSendingTimer is explained in next subsection.
 	
+    \makeatletter
+    \def\BState{\State\hskip-\ALG@thistlm}
+    \makeatother
+    \begin{algorithm}
+    \caption{My algorithm}\label{euclid}
+    \begin{algorithmic}[1]
+    \Procedure{MyProcedure}{}
+    \State $\textit{stringlen} \gets \text{length of }\textit{string}$
+    \State $i \gets \textit{patlen}$
+    \BState \emph{top}:
+    \If {$i > \textit{stringlen}$} \Return false
+    \EndIf
+    \State $j \gets \textit{patlen}$
+    \BState \emph{loop}:
+    \If {$\textit{string}(i) = \textit{path}(j)$}
+    \State $j \gets j-1$.
+    \State $i \gets i-1$.
+    \State \textbf{goto} \emph{loop}.
+    \State \textbf{close};
+    \EndIf
+    \State $i \gets i+\max(\textit{delta}_1(\textit{string}(i)),\textit{delta}_2(j))$.
+    \State \textbf{goto} \emph{top}.
+    \EndProcedure
+    \end{algorithmic}
+    \end{algorithm}
+    
+	% Insert the algorithm
+	\begin{algorithm}
+		\caption{\ac{PC} Advertisement}
+		\label{BeaconTimer}
+		\begin{algorithmic}[1]
+			\Procedure{BeaconTimer}{}
+			\State $sum = 0$
+			\For {each integer $i$ in $A$}
+			\State $sum = sum + i$
+			\EndFor
+			\State Return $sum$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	% BeaconTimer Sending Algorithm
+	\begin{algorithm}
+		\caption{\ac{PC} availability announcement in one hop by \acp{PC}}
+		\label{BeaconTimerSend}
+		\begin{algorithmic}[1]
+			\Procedure{BeaconTimer.fired}{}
+		
+			\If {$not \textit{sendBeaconBusyOnehop}$}
+			    \State $SendBeacon1hop(\ac{ETX}, TOS\_NODE\_ID)$
+		    \EndIf	
+		\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	% BeaconTimer Reception Algorithm
+	\begin{algorithm}
+		\caption{\ac{PC} availability relaying in two hop by one hop recipients}
+		\label{BeaconTimerReceive}
+		\begin{algorithmic}[1]
+			\Procedure{BeaconTimer.Receive}{}
+			\If {$not \textit{sendBeaconBusyTwohop}$}
+			    \State $SendBeacon2hop(\ac{ETX}, TOS\_NODE\_ID)$
+			    \State $InsertIntoProcessingCentreStructArray(\ac{ETX}, TOS\_NODE\_ID)$
+		    \EndIf	
+		\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	% Insert the algorithm
+	\begin{algorithm}
+		\caption{Retrieve an optimal \ac{PC} for transmission}
+		\label{getProcessingCentreForTransmission}
+		\begin{algorithmic}[1]
+			\Procedure{GetProcessingCentreForTransmission}{}
+			\For {each \ac{PC} $i$ in $\ac{PC}StructArray$}
+	            \For {each \ac{Busy\ac{PC}} $j$ in $Busy\ac{PC}StructArray$}
+                    \If {$\textit{\ac{PC}}(i) != \textit{BusyProcessingCentre}(j)$}
+                        \Return i
+                    \EndIf
+                \EndFor
+		    \EndFor
+			
+			\State $sum = 0$
+			\For {each integer $i$ in $A$}
+			\State $sum = sum + i$
+			\EndFor
+			\State Return $sum$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	
+	^% Insert the algorithm
+	\begin{algorithm}
+		\caption{Compute sum of integers in array}
+		\label{array-sum}
+		\begin{algorithmic}[1]
+			\Procedure{ArraySum}{$A$}
+			\State $sum = 0$
+			\For {each integer $i$ in $A$}
+			\State $sum = sum + i$
+			\EndFor
+			\State Return $sum$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	
+	% Insert the algorithm
+	\begin{algorithm}
+		\caption{Compute sum of integers in array}
+		\label{array-sum}
+		\begin{algorithmic}[1]
+			\Procedure{ArraySum}{$A$}
+			\State $sum = 0$
+			\For {each integer $i$ in $A$}
+			\State $sum = sum + i$
+			\EndFor
+			\State Return $sum$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	
+	% Insert the algorithm
+	\begin{algorithm}
+		\caption{Compute sum of integers in array}
+		\label{array-sum}
+		\begin{algorithmic}[1]
+			\Procedure{ArraySum}{$A$}
+			\State $sum = 0$
+			\For {each integer $i$ in $A$}
+			\State $sum = sum + i$
+			\EndFor
+			\State Return $sum$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	
+	% Insert the algorithm
+	\begin{algorithm}
+		\caption{Compute sum of integers in array}
+		\label{array-sum}
+		\begin{algorithmic}[1]
+			\Procedure{ArraySum}{$A$}
+			\State $sum = 0$
+			\For {each integer $i$ in $A$}
+			\State $sum = sum + i$
+			\EndFor
+			\State Return $sum$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
 	\begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{gfx/PreambleSendingTimer.png}
